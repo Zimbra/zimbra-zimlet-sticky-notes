@@ -8,7 +8,7 @@ To follow the steps in this article you need a Zimbra test server. You will need
 
 ## What is custom metadata?
 
-Custom metadata is additional information that you can add to emails, contacs, calendar etc in Zimbra. This custom metadata is stored in MariaDB. Adding additional infomation to items can be useful when your are extending Zimbra. Custom metadata can be accessed via the Zimlet framework on all versions of Zimbra. This makes it possible to use metadata in the modern and classic UI seamlessly. You can also use soap to get and set custom metadata.
+Custom metadata is additional information that you can add to emails, contacts, calendar etc in Zimbra. This custom metadata is stored in MariaDB. Adding additional information to items can be useful when your are extending Zimbra. Custom metadata can be accessed via the Zimlet framework on all versions of Zimbra. This makes it possible to use metadata in the modern and classic UI seamlessly. You can also use soap to get and set custom metadata.
 
 This article shows you an example Zimlet that allows the user to add Sticky Notes to emails in Zimbra.
 
