@@ -50,8 +50,8 @@ Create a folder on your local computer to store the Sticky Notes Zimlet:
 
       mkdir ~/zimbra_course_pt3
       cd ~/zimbra_course_pt3
-      git clone https://github.com/Zimbra/sticky-notes-zimlet-modern
-      cd sticky-notes-zimlet-modern
+      git clone https://github.com/Zimbra/zimbra-zimlet-sticky-notes
+      cd zimbra-zimlet-sticky-notes
       npm install
       zimlet watch
 
@@ -86,14 +86,14 @@ Log on to your Zimbra development server and make sure that you are seeing the m
 
 ## Visual Studio Code
 
-Open the folder `~/zimbra_course_pt3/sticky-notes-zimlet-modern` in Visual Studio code to take a look at the code in the Sticky Notes Zimlet. More information on this can be found at: https://github.com/Zimbra/zm-zimlet-guide.
+Open the folder `~/zimbra_course_pt3/zimbra-zimlet-sticky-notes` in Visual Studio code to take a look at the code in the Sticky Notes Zimlet. More information on this can be found at: https://github.com/Zimbra/zm-zimlet-guide.
 
 ## Internationalization (i18n)
 
 To make your Zimlet available in multiple languages, you can use `preact-i18n`. It is set up using json files and an enhancer.js. Take a look at the following files:
 
-* ~/zimbra_course_pt3/sticky-notes-zimlet-modern/src/intl/en_US.json
-* ~/zimbra_course_pt3/sticky-notes-zimlet-modern/src/enhancers.js
+* ~/zimbra_course_pt3/zimbra-zimlet-sticky-notes/src/intl/en_US.json
+* ~/zimbra_course_pt3/zimbra-zimlet-sticky-notes/src/enhancers.js
 
 The contents of enhancers.js is similar across all Zimlets:
 
@@ -120,7 +120,7 @@ In src/intl you have to provide JSON formatted language strings for all language
 
 ```javascript
 {
-   "sticky-notes-zimlet-modern": {
+   "zimbra-zimlet-sticky-notes": {
       "title": "Sticky Notes"
       }
 }
@@ -136,7 +136,7 @@ import { withText } from 'preact-i18n';
 
 @withIntl()
 @withText({
-    title: 'sticky-notes-zimlet-modern.title',
+    title: 'zimbra-zimlet-sticky-notes.title',
 })
 export default class MyComponent extends Component {
 
