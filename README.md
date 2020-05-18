@@ -155,7 +155,7 @@ If you want to set custom metadata for an item so you can do it by using withSet
 
 ### Use of withSetCustomMetaData decorator in a Component
 
-When you add an emtpy `@withSetCustomMetaData()` decorator a setCustomMetadata method will be passed in the props of your component.
+When you add an empty `@withSetCustomMetaData()` decorator a setCustomMetadata method will be passed in the props of your component.
 
 ```js
 import { withSetCustomMetaData } from '@zimbra-client/graphql';
