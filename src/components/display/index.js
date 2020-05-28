@@ -67,11 +67,12 @@ export default class Display extends Component {
         if (sticky.length > 0) {
             window.parent.document.getElementById('stickyNoteFromMeta' + this.props.emailData.id).style.display = 'none';
             window.parent.document.getElementById('stickyNotes' + this.props.emailData.id).innerText = sticky;
-            window.parent.document.getElementById('stickyNotes' + this.props.emailData.id).className = 'sticky-notes-zimlet-modern_display_stickynote';
+            window.parent.document.getElementById('stickyNotes' + this.props.emailData.id).className = style.stickynote;
         } else {
             window.parent.document.getElementById('stickyNoteFromMeta' + this.props.emailData.id).style.display = 'none';
             window.parent.document.getElementById('stickyNotes' + this.props.emailData.id).innerText = sticky;
-            window.parent.document.getElementById('stickyNotes' + this.props.emailData.id).className = 'sticky-notes-zimlet-modern_display_addStickynote';
+            window.parent.document.getElementById('stickyNotes' + this.props.emailData.id).
+            className = style.addStickynote;
         }
 
         this.props.setCustomMetadata({
