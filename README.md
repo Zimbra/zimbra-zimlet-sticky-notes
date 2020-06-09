@@ -4,7 +4,7 @@ This article explains how to use internationalization and custom metadata in Mod
 
 ## Prerequisites 
 
-To follow the steps in this article you need a Zimbra test server. You will need to have Zimbra 9 Network Edition patch **???????? put patchlevel here, x-ui 3.6.0? ??????????**. You can set this up in a Virtual Machine in the cloud or you can install it on your local computer inside VirtualBox/KVM/Parallels etc. If you decide to set it up on your local computer you need at least an i5 with 16GB of RAM and a SSD. Your test server needs to be accessible over SSH. Instructions on how to set up your Zimbra server: https://blog.zimbra.com/2018/01/install-zimbra-collaboration-8-8-ubuntu-16-04-lts/ make sure to install the latest patches. You can find instructions on how to install patches at https://wiki.zimbra.com/wiki/Zimbra_Releases
+To follow the steps in this article you need a Zimbra test server. You will need to have Zimbra 9 Network Edition patch 3. You can set this up in a Virtual Machine in the cloud or you can install it on your local computer inside VirtualBox/KVM/Parallels etc. If you decide to set it up on your local computer you need at least an i5 with 16GB of RAM and a SSD. Your test server needs to be accessible over SSH. Instructions on how to set up your Zimbra server: https://blog.zimbra.com/2018/01/install-zimbra-collaboration-8-8-ubuntu-16-04-lts/ make sure to install the latest patches. You can find instructions on how to install patches at https://wiki.zimbra.com/wiki/Zimbra_Releases
 
 ## What is custom metadata?
 
@@ -116,7 +116,7 @@ export const withIntl = () => withIntlWrapper(
 );
 ```
 
-In src/intl you have to provide JSON formatted language strings for all languages you wish to support. But at least you must always provide `en_US.json` as the default fallback language. Example content:
+In src/intl you have to provide JSON formatted language strings for all languages you wish to support and add them to `.eslintrc.js`. But at least you must always provide `en_US.json` as the default fallback language. Example content:
 
 ```javascript
 {
@@ -148,6 +148,20 @@ export default class MyComponent extends Component {
 ```      
 
 Now this component will return the string `Sticky Notes`.
+
+ESLint is a code analysis tool for identifying problems in JavaScript code. If you add more languages files, those should be added to .eslintrc.js. Example config:
+
+```javascript
+...
+"preact-i18n": {
+   "languageFiles": [
+      {
+         "name": "en_US",
+         "path": "src/intl/en_US.json"
+      }
+   ],
+...
+```
 
 ## Reading and writing custom metadata
 
