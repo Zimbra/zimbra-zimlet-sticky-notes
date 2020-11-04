@@ -33,8 +33,5 @@
     "eslint-plugin-preact-i18n": "^1.0.1",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-prettier": "^3.1.2"
-  },
-  "dependencies": {
-    "@zimbra/x-ui": "^2.2.0"
   }
 }
