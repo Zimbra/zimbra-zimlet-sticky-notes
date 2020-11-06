@@ -1,16 +1,17 @@
 {
   "private": true,
-  "name": "zm-x-zimlet-sticky-notes",
-  "version": "1.0.0",
+  "name": "zimbra-zimlet-sticky-notes",
+  "version": "2.0.0",
   "license": "MIT",
-  "description": "TBD",
+  "description": "Add sticky notes facility to mails",
+  "label": "Sticky Notes Zimlet",
   "main": "build/index.js",
   "module": "src/index.js",
   "scripts": {
     "build": "zimlet build",
     "watch": "zimlet watch",
     "start": "zimlet watch",
-    "package": "zimlet package --name $npm_package_name --description $npm_package_description --pkg-version $npm_package_version --zimbraXVersion '^2.0.0'",
+    "package": "zimlet package --name $npm_package_name --description $npm_package_description --pkg-version $npm_package_version --label $npm_package_label --zimbraXVersion '^3.0.0'",
     "lint": "eslint src",
     "lint:fix": "npm run lint -- --fix",
     "security:audit": "audit-ci --moderate --report"
@@ -25,7 +26,7 @@
     "extends": "eslint-config-synacor"
   },
   "devDependencies": {
-    "@zimbra/zimlet-cli": "^12.0.0",
+    "@zimbra/zimlet-cli": "^12.1.0",
     "audit-ci": "^2.5.1",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",

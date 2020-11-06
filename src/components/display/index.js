@@ -1,7 +1,7 @@
 import { createElement, Component } from 'preact';
 import { withIntl } from '../../enhancers';
 import style from './style';
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/client/react/components';
 import { gql } from '@apollo/client';
 import { ModalDialog } from '@zimbra-client/components';
 import { withSetCustomMetaData } from '@zimbra-client/graphql';
