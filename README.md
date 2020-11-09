@@ -223,8 +223,8 @@ This is an alternative way to get custom metadata that uses the Query component 
 
 ```js
 import { createElement, Component } from 'preact';
-import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
+import { Query } from '@apollo/client/react/components';
+import { gql } from '@apollo/client';
 import { Spinner } from '@zimbra-client/blocks';
 export default class Display extends Component {
 
