@@ -53,7 +53,7 @@ export default class Display extends Component {
                         <textarea class={style.stickynote} style="width: 600px; height: 300px; border:0px;" id="stickyNotesEditor">{window.parent.document.getElementById('stickyNotes' + this.props.emailData.id).innerText || null}</textarea>
 
                     </div>
-                    <footer class="zimbra-client_modal-dialog_footer" id="nextcloudDialogButtons"><button type="button" onClick={this.handleSave} class="blocks_button blocks_button_regular">OK</button></footer>
+                    <footer class="zimbra-client_modal-dialog_footer" id="nextcloudDialogButtons"><button type="button" onClick={this.handleSave} class="blocks_button_button blocks_button_primary blocks_button_regular zimbra-client_sidebar-primary-button_button">OK</button></footer>
                 </div>
             </ModalDialog>
         );
