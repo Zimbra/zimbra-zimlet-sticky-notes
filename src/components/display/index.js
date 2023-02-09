@@ -51,9 +51,8 @@ export default class Display extends Component {
                 <div class="zimbra-client_modal-dialog_inner"><header class="zimbra-client_modal-dialog_header"><h2>{title}</h2><button onClick={this.handleClose} aria-label="Close" class="zimbra-client_close-button_close zimbra-client_modal-dialog_actionButton"><span role="img" class="zimbra-icon zimbra-icon-close blocks_icon_md"></span></button></header>
                     <div class="zimbra-client_modal-dialog_content zimbra-client_language-modal_languageModalContent">
                         <textarea class={style.stickynote} style="width: 600px; height: 300px; border:0px;" id="stickyNotesEditor">{window.parent.document.getElementById('stickyNotes' + this.props.emailData.id).innerText || null}</textarea>
-
+                        <button type="button" onClick={this.handleSave} class="blocks_button_button blocks_button_primary blocks_button_regular zimbra-client_sidebar-primary-button_button">OK</button>
                     </div>
-                    <footer class="zimbra-client_modal-dialog_footer" id="nextcloudDialogButtons"><button type="button" onClick={this.handleSave} class="blocks_button_button blocks_button_primary blocks_button_regular zimbra-client_sidebar-primary-button_button">OK</button></footer>
                 </div>
             </ModalDialog>
         );
