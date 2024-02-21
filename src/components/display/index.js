@@ -7,12 +7,15 @@ import { ModalDialog } from '@zimbra-client/components';
 import { withSetCustomMetaData } from '@zimbra-client/graphql';
 import { withText } from 'preact-i18n';
 import { Spinner } from '@zimbra-client/blocks';
+import { Button } from '@zimbra-client/blocks';
+import dompurify from 'dompurify';
 
 // See : https://github.com/Zimbra/zimlet-cli/wiki/Storing-and-Fetching-MetaData-in-Zimlets
 
 @withIntl()
 @withText({
-    title: 'sticky-notes-zimlet-modern.title',
+    title: 'zimbra-zimlet-sticky-notes.title',
+    save: 'zimbra-zimlet-sticky-notes.save'
 })
 @withSetCustomMetaData() // This will provide you setCustomMetadata method in props to set custom meta
 export default class Display extends Component {
@@ -38,6 +41,7 @@ export default class Display extends Component {
 
     showDialog = () => {
         const { title } = this.props;
+        const { save } =  this.props;
         this.modal = (
             <ModalDialog
                 class={style.modalDialog}
@@ -51,7 +55,7 @@ export default class Display extends Component {
                 <div class="zimbra-client_modal-dialog_inner"><header class="zimbra-client_modal-dialog_header"><h2>{title}</h2><button onClick={this.handleClose} aria-label="Close" class="zimbra-client_close-button_close zimbra-client_modal-dialog_actionButton"><span role="img" class="zimbra-icon zimbra-icon-close blocks_icon_md"></span></button></header>
                     <div class="zimbra-client_modal-dialog_content zimbra-client_language-modal_languageModalContent">
                         <textarea class={style.stickynote} style="width: 600px; height: 300px; border:0px;" id="stickyNotesEditor">{window.parent.document.getElementById('stickyNotes' + this.props.emailData.id).innerText || null}</textarea>
-                        <button type="button" onClick={this.handleSave} class="blocks_button_button blocks_button_primary blocks_button_regular zimbra-client_sidebar-primary-button_button">OK</button>
+                        <Button onClick={this.handleSave} styleType="primary" brand="primary">{save}</Button>
                     </div>
                 </div>
             </ModalDialog>
@@ -63,16 +67,16 @@ export default class Display extends Component {
 
     handleSave = e => {
         const sticky = window.parent.document.getElementById('stickyNotesEditor').value;
-        if (sticky.length > 0) {
-            window.parent.document.getElementById('stickyNoteFromMeta' + this.props.emailData.id).style.display = 'none';
-            window.parent.document.getElementById('stickyNotes' + this.props.emailData.id).innerText = sticky;
-            window.parent.document.getElementById('stickyNotes' + this.props.emailData.id).className = style.stickynote;
-        } else {
-            window.parent.document.getElementById('stickyNoteFromMeta' + this.props.emailData.id).style.display = 'none';
-            window.parent.document.getElementById('stickyNotes' + this.props.emailData.id).innerText = sticky;
-            window.parent.document.getElementById('stickyNotes' + this.props.emailData.id).
-            className = style.addStickynote;
-        }
+           if (sticky.length > 0) {
+               window.parent.document.getElementById('stickyNoteFromMeta' + this.props.emailData.id).style.display = 'none';
+               window.parent.document.getElementById('stickyNotes' + this.props.emailData.id).innerText = sticky;
+               window.parent.document.getElementById('stickyNotes' + this.props.emailData.id).className = style.stickynote;
+           } else {
+               //window.parent.document.getElementById('stickyNoteFromMeta' + this.props.emailData.id).style.display = 'none';
+               window.parent.document.getElementById('stickyNotes' + this.props.emailData.id).innerText = sticky;
+               window.parent.document.getElementById('stickyNotes' + this.props.emailData.id).
+               className = style.addStickynote;
+           }
 
         this.props.setCustomMetadata({
             id: this.props.emailData.id, // id of any appointment, mail or contact item on which we want to set metadata
@@ -112,7 +116,7 @@ export default class Display extends Component {
                     if (error) return "";
                     if (data.getCustomMetadata.meta && data.getCustomMetadata.meta[0]._attrs[0].value !== "") {
                         return (
-                            <div id={'stickyNotes' + this.props.emailData.id} onClick={this.showDialog} class={style.stickynote}><div id={'stickyNoteFromMeta' + this.props.emailData.id}>{data.getCustomMetadata.meta[0]._attrs[0].value || ""}</div></div>
+                            <div id={'stickyNotes' + this.props.emailData.id} onClick={this.showDialog} class={style.stickynote}><div id={'stickyNoteFromMeta' + this.props.emailData.id}>{dompurify.sanitize(data.getCustomMetadata.meta[0]._attrs[0].value) || ""}</div></div>
                         );
                     } else {
                         return (

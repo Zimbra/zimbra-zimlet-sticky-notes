@@ -121,8 +121,13 @@ In src/intl you have to provide JSON formatted language strings for all language
 ```javascript
 {
    "zimbra-zimlet-sticky-notes": {
-      "title": "Sticky Notes"
-      }
+      "title": "Sticky Notes",
+      "save": "Save"
+    },
+   "zimlet": {
+      "description": "Add Sticky Notes to your email messages",
+      "label": "Sticky Notes"
+   }
 }
 ```
 

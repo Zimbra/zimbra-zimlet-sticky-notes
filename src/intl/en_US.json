@@ -1,6 +1,7 @@
 {
-   "sticky-notes-zimlet-modern": {
-      "title": "Sticky Notes"
+   "zimbra-zimlet-sticky-notes": {
+      "title": "Sticky Notes",
+      "save": "Save"
     },
    "zimlet": {
       "description": "Add Sticky Notes to your email messages",
