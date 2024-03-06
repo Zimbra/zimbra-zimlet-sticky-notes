@@ -142,6 +142,8 @@ workflows:
          - checkout:
             requires:
               - build
+            context:
+               - docker-dev-registry
          - build_u22:
             requires:
                - checkout
