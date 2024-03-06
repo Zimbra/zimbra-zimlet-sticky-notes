@@ -1,0 +1,188 @@
+version: 2.1
+############################################################################
+
+references:
+   checkout_job_steps: &checkout_job_steps
+      steps:
+         - checkout
+         - run: 
+            name: Checking out dependencies
+            command: |
+               git clone https://github.com/Zimbra/zm-pkg-tool.git ~/zm-pkg-tool
+         - persist_to_workspace:
+            root: ..
+            paths:
+               - zimbra-zimlet-sticky-notes
+               - zm-pkg-tool
+
+   build_job_steps: &build_job_steps
+      steps:
+         - attach_workspace:
+            at: ..
+         - run:
+            name: Creating build
+            command: make
+         - store_artifacts:
+            path: build/
+         - persist_to_workspace:
+            root: ..
+            paths: zimbra-zimlet-sticky-notes/build/*
+
+
+   deploy_s3_job_steps: &deploy_s3_job_steps
+      docker:
+         - image: 'cimg/python:3.10'
+      resource_class: small
+
+      steps:
+         - attach_workspace:
+            at: ..
+         - run:
+             name: Create a zip file for artifacts and upload them to the OCI bucket
+             command: |
+               cd build/
+               zip -r $CIRCLE_PROJECT_REPONAME.zip .
+               curl -X PUT "$OCI_PAR_URL$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM/archives/$CIRCLE_PROJECT_REPONAME.zip" -T $CIRCLE_PROJECT_REPONAME.zip
+############################################################################
+
+jobs:
+   checkout:
+      working_directory: ~/zimbra-zimlet-sticky-notes
+      shell: /bin/bash -eo pipefail
+      docker:
+         - image: $DOCKER_REGISTRY/zm-base-os:devcore-ubuntu-18.04
+           auth:
+            username: $DOCKER_USER
+            password: $DOCKER_PASS       
+      resource_class: small
+      <<: *checkout_job_steps
+
+   build_u22:
+      working_directory: ~/zimbra-zimlet-sticky-notes
+      shell: /bin/bash -eo pipefail
+      docker:
+         - image: $DOCKER_REGISTRY/zm-base-os:devcore-ubuntu-22.04
+           auth:
+            username: $DOCKER_USER
+            password: $DOCKER_PASS
+      resource_class: medium
+      <<: *build_job_steps
+
+   build_u20:
+      working_directory: ~/zimbra-zimlet-sticky-notes
+      shell: /bin/bash -eo pipefail
+      docker:
+         - image: $DOCKER_REGISTRY/zm-base-os:devcore-ubuntu-20.04
+           auth:
+            username: $DOCKER_USER
+            password: $DOCKER_PASS
+      resource_class: medium
+      <<: *build_job_steps
+
+   build_u18:
+      working_directory: ~/zimbra-zimlet-sticky-notes
+      shell: /bin/bash -eo pipefail
+      docker:
+         - image: $DOCKER_REGISTRY/zm-base-os:devcore-ubuntu-18.04
+           auth:
+            username: $DOCKER_USER
+            password: $DOCKER_PASS
+      resource_class: medium
+      <<: *build_job_steps
+
+
+   build_c9:
+      working_directory: ~/zimbra-zimlet-sticky-notes
+      shell: /bin/bash -eo pipefail
+      docker:
+         - image: $DOCKER_REGISTRY/zm-base-os:devcore-centos-9
+           auth:
+            username: $DOCKER_USER
+            password: $DOCKER_PASS
+      resource_class: medium
+      <<: *build_job_steps
+
+   build_c8:
+      working_directory: ~/zimbra-zimlet-sticky-notes
+      shell: /bin/bash -eo pipefail
+      docker:
+         - image: $DOCKER_REGISTRY/zm-base-os:devcore-centos-8
+           auth:
+            username: $DOCKER_USER
+            password: $DOCKER_PASS
+      resource_class: medium
+      <<: *build_job_steps
+
+   build_c7:
+      working_directory: ~/zimbra-zimlet-sticky-notes
+      shell: /bin/bash -eo pipefail
+      docker:
+         - image: $DOCKER_REGISTRY/zm-base-os:devcore-centos-7
+           auth:
+            username: $DOCKER_USER
+            password: $DOCKER_PASS
+      resource_class: medium
+      <<: *build_job_steps
+
+   deploy_s3:
+      working_directory: ~/zimbra-zimlet-sticky-notes
+      shell: /bin/bash -eo pipefail
+      <<: *deploy_s3_job_steps
+
+############################################################################
+
+workflows:
+   version: 2
+   main:
+      jobs:
+         - build:
+            type: approval
+         - checkout:
+            requires:
+              - build
+         - build_u22:
+            requires:
+               - checkout
+            context:
+               - docker-dev-registry
+         - build_u20:
+            requires:
+               - checkout
+            context:
+               - docker-dev-registry
+         - build_u18:
+            requires:
+               - checkout
+            context:
+               - docker-dev-registry
+         - build_c9:
+            requires:
+               - checkout
+            context:
+               - docker-dev-registry
+         - build_c8:
+            requires:
+               - checkout
+            context:
+               - docker-dev-registry
+         - build_c7:
+            requires:
+               - checkout
+            context:
+               - docker-dev-registry
+
+         - deploy_s3_hold:
+            type: approval
+            requires:
+               - build_u22
+               - build_u20
+               - build_u18
+               - build_c9
+               - build_c8
+               - build_c7
+
+         - deploy_s3:
+            context:
+               - oracle
+            requires:
+               - deploy_s3_hold
