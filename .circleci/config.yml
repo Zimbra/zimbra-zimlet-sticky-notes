@@ -42,7 +42,9 @@ references:
              command: |
                cd build/
                zip -r $CIRCLE_PROJECT_REPONAME.zip .
-               curl -X PUT "$OCI_PAR_URL$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM/archives/$CIRCLE_PROJECT_REPONAME.zip" -T $CIRCLE_PROJECT_REPONAME.zip
+               ZIP_FILE_PATH="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM/archives/$CIRCLE_PROJECT_REPONAME.zip"
+               curl -X PUT "$OCI_PAR_URL$ZIP_FILE_PATH" -T $CIRCLE_PROJECT_REPONAME.zip
+               echo "artifacts uploaded to $ZIP_FILE_PATH"
 ############################################################################
 
 jobs:
