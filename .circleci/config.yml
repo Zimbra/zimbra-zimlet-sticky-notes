@@ -8,7 +8,7 @@ references:
          - run: 
             name: Checking out dependencies
             command: |
-               git clone https://github.com/Zimbra/zm-pkg-tool.git ~/zm-pkg-tool
+               git clone --depth 1 https://github.com/Zimbra/zm-pkg-tool.git ~/zm-pkg-tool
          - persist_to_workspace:
             root: ..
             paths:
