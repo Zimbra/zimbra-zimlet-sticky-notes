@@ -59,6 +59,17 @@ jobs:
       resource_class: small
       <<: *checkout_job_steps
 
+   build_u24:
+      working_directory: ~/zimbra-zimlet-sticky-notes
+      shell: /bin/bash -eo pipefail
+      docker:
+         - image: $DOCKER_REGISTRY/zm-base-os:devcore-ubuntu-24.04
+           auth:
+            username: $DOCKER_USER
+            password: $DOCKER_PASS
+      resource_class: medium
+      <<: *build_job_steps
+      
    build_u22:
       working_directory: ~/zimbra-zimlet-sticky-notes
       shell: /bin/bash -eo pipefail
@@ -144,6 +155,11 @@ workflows:
               - build
             context:
                - docker-dev-registry
+         - build_u24:
+            requires:
+               - checkout
+            context:
+               - docker-dev-registry
          - build_u22:
             requires:
                - checkout
@@ -178,6 +194,7 @@ workflows:
          - deploy_s3_hold:
             type: approval
             requires:
+               - build_u24
                - build_u22
                - build_u20
                - build_u18
