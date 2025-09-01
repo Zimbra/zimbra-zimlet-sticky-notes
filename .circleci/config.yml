@@ -160,47 +160,11 @@ workflows:
                - checkout
             context:
                - docker-dev-registry
-         - build_u22:
-            requires:
-               - checkout
-            context:
-               - docker-dev-registry
-         - build_u20:
-            requires:
-               - checkout
-            context:
-               - docker-dev-registry
-         - build_u18:
-            requires:
-               - checkout
-            context:
-               - docker-dev-registry
-         - build_c9:
-            requires:
-               - checkout
-            context:
-               - docker-dev-registry
-         - build_c8:
-            requires:
-               - checkout
-            context:
-               - docker-dev-registry
-         - build_c7:
-            requires:
-               - checkout
-            context:
-               - docker-dev-registry
 
          - deploy_s3_hold:
             type: approval
             requires:
                - build_u24
-               - build_u22
-               - build_u20
-               - build_u18
-               - build_c9
-               - build_c8
-               - build_c7
 
          - deploy_s3:
             context:
